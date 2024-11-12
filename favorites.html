@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - CosmicFrame</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<section id="sectionfav" class="sectionfav">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="index.html">
+                <img src="./img/logo.png" alt="Logo" style="max-height: 50px; width: auto;">
+            </a>
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html#section4">Learn More</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#section3">Find Your Picture</a></li>
+                    <li class="nav-item"><a class="nav-link" href="favorites.html">Favorites</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h1 class="titlefav text-center">Your Favorites</h1>
+
+        <div class="container">
+            <div class="row" id="favoriteContainer">
+            </div>
+        
+            <button class="gradient-button" onclick="location.href='index.html'">START NOW</button>
+        </div>
+    </div> 
+</section> 
+
+<div class="modal fade" id="largeImageModal" tabindex="-1" aria-labelledby="largeImageLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-custom-bg">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="close-icon">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <h5 id="largeImageLabel" class="sr-only">Large Image</h5>
+                <!-- Aquí la imagen debe tener una URL válida o dejarse vacío si no se usa -->
+                <img id="largeImage" src="path/to/your/image.jpg" alt="Large Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
+
