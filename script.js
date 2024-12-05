@@ -1,4 +1,4 @@
-const apiKey = 'J7sv6Z8QxaFrbexGtuhoPatOPTYvmlcWfjUWQ7c6'; // My API Key
+const apiKey = 'J7sv6Z8QxaFrbexGtuhoPatOPTYvmlcWfjUWQ7c6'; // Mi API Key
 
 async function fetchImage(date) {
     const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${date}`;
@@ -30,7 +30,7 @@ async function fetchImage(date) {
     }
 }
 
-// Save to Favorites
+// Guardar en Favoritos
 function addToFavorites() {
     const imageUrl = document.querySelector('#datePhotoDiv img').src;
     const title = document.getElementById('dateCaption1').textContent;
@@ -47,7 +47,7 @@ function addToFavorites() {
     }
 }
 
-// Display Favorites
+// Mostrar Favoritos
 function displayFavorites() {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const favoriteContainer = document.getElementById('favoriteContainer');
@@ -68,7 +68,7 @@ function displayFavorites() {
     });
 }
 
-// View HD Image
+// Ver Imagen en HD
 function viewHDImage(imageUrl) {
     const modal = document.getElementById('largeImageModal');
     const modalImage = document.getElementById('largeImage');
@@ -76,7 +76,10 @@ function viewHDImage(imageUrl) {
     $(modal).modal('show');
 }
 
-// Remove from Favorites
+
+
+
+// Eliminar Favorito
 function removeFromFavorites(imageUrl) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites = favorites.filter(fav => fav.imageUrl !== imageUrl);
@@ -84,10 +87,20 @@ function removeFromFavorites(imageUrl) {
     displayFavorites();
 }
 
-// Load Favorites on the Page
+// Cargar Favoritos en la página
 if (window.location.pathname.includes('favorites.html')) {
     displayFavorites();
 }
+
+// Función para manejar el formulario de fecha
+document.getElementById('submitDate').addEventListener('click', () => {
+    const inputDate = document.getElementById('date').value;
+    if (inputDate) {
+        fetchImage(inputDate);
+    } else {
+        alert('Please select a valid date.');
+    }
+});
 
 
 
