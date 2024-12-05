@@ -30,16 +30,6 @@ async function fetchImage(date) {
     }
 }
 
-// Function to handle date form
-document.getElementById('submitDate').addEventListener('click', () => {
-    const inputDate = document.getElementById('date').value;
-    if (inputDate) {
-        fetchImage(inputDate);
-    } else {
-        alert('Please select a valid date.');
-    }
-});
-
 // Save to Favorites
 function addToFavorites() {
     const imageUrl = document.querySelector('#datePhotoDiv img').src;
@@ -57,18 +47,6 @@ function addToFavorites() {
     }
 }
 
-// View HD Image
-function viewHDImage(imageUrl) {
-    const modal = document.getElementById('largeImageModal');
-    const modalImage = document.getElementById('largeImage');
-    modalImage.src = imageUrl;
-    $(modal).modal('show');
-}
-
-// Load Favorites on the Page
-if (window.location.pathname.includes('favorites.html')) {
-    displayFavorites();
-}
 // Display Favorites
 function displayFavorites() {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -90,6 +68,13 @@ function displayFavorites() {
     });
 }
 
+// View HD Image
+function viewHDImage(imageUrl) {
+    const modal = document.getElementById('largeImageModal');
+    const modalImage = document.getElementById('largeImage');
+    modalImage.src = imageUrl;
+    $(modal).modal('show');
+}
 
 // Remove from Favorites
 function removeFromFavorites(imageUrl) {
@@ -98,6 +83,12 @@ function removeFromFavorites(imageUrl) {
     localStorage.setItem('favorites', JSON.stringify(favorites));
     displayFavorites();
 }
+
+// Load Favorites on the Page
+if (window.location.pathname.includes('favorites.html')) {
+    displayFavorites();
+}
+
 
 
 
