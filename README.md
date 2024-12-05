@@ -37,4 +37,3 @@ Challenges Faced
 - Implementing a hamburger menu that works well on smaller screens.
 - Effectively managing the addition and removal of favorite images.
 
-
