@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CosmicFrame</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
 </head>
@@ -69,10 +68,11 @@
 <section id="section3" class="section3">
     <div class="container">
         <h2 class="text-center">Write your special past date</h2>
-        <div class="input-group">
-            <input type="text" class="search-bar" placeholder="Enter your date...">
-            <button type="button" class="btn btn-search" data-toggle="modal" data-target="#exampleModal">Search</button>
-        </div>
+            <div class="input-group">
+                <input type="date" id="date" name="date" class="search-bar calendar-input">
+                <button type="submit" id="submitDate" class="btn btn-search" data-toggle="modal" data-target="#exampleModal">
+                    Search
+                </button>
     </div>
 </section>
 
@@ -139,31 +139,23 @@
         <div class="row mt-5">
             <div class="col text-center">
                 <h3>And this is how the sky looked when the stars aligned in your favor.</h3>
-                <button class="gradient-button" onclick="location.href='#section3'">START NOW</button>
             </div>
         </div>
     </div>
 </section>
-
-
 
 <!-- Section 5 -->
 <section id="section5" class="section5">
     <div class="container text-center">
         <h2>An Out-of-this-World Gift</h2>
         <p>Imagine gifting someone a glimpse of the sky from their most meaningful day. Whether it’s for a birthday, anniversary, or just because, share the stars with someone you care about. Give a cosmic experience they’ll never forget.</p>
-        <div class="search-container">
-            <div class="text-box2"> 
-                <h3>Write your special past date</h3>
-                <div class="input-group">
-                    <input type="text" class="search-bar" placeholder="Enter your date...">
-                    <button type="button" class="btn btn-search" data-toggle="modal" data-target="#exampleModal">Search</button>
+        <button class="gradient-button" onclick="location.href='#section3'">START NOW</button>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 
 <!-- Popup -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -175,29 +167,34 @@
                 </button>
             </div>
             <div class="modal-body d-flex justify-content-center align-items-start">
-                <div class="modal-text">
-                    <h2 class="modal-title" id="exampleModalLabel">September 27th, 2022</h2>
-                    <p>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                <div class="modal-text"> 
+                    <div id="captions">
+                        <h3 id="dateCaption1"></h3>
+                        <p id="dateCaption2"></p>
+                        <p id="dateCaption3"></p>
+                        <p id="dateCaption4"></p>
+                    </div>
                 </div>
-                <div class="favorite-box text-box2">
-                    <div class="favorite-image-container">
-                        <button class="heart-icon" onclick="addToFavorites()">
-                            <img src="img/iconsave.png" alt="Favorite Icon" class="heart-icon-img">
+
+                <!-- Contenedor de la imagen estándar -->
+                 
+                <div class="favorite-box">
+                    <div class="favorite-image-container" id="dateAPOD">
+                        <button class="heart-icon" onclick="addToFavorites()"> 
+                            <img src="img/iconsave.png" alt="Favorite Icon" class="heart-icon-img"> 
                         </button>
-                        <img src="img/15.png" alt="Favorite" class="favorite-image" id="image-box" onclick="toggleImage()">
-                    </div>
-                    <div class="favorite-details">
-                        <h3>JUPITER</h3>
-                        <h4>September 27th, 2022</h4>
-                        <p> Jupiter was closer to our planet and we could see their atmosphere clearer</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <figure id="dateAPOD">
+                            <!-- Este div contiene la imagen estándar como fondo -->
+                            <div id="datePhotoDiv" class="image-background"></div>
+                        </figure>
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
 </div>
 
-<!-- Large Image  -->
+<!-- Popup for HD Image -->
 <div class="modal fade" id="largeImageModal" tabindex="-1" aria-labelledby="largeImageLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-custom-bg">
@@ -208,7 +205,7 @@
             </div>
             <div class="modal-body d-flex justify-content-center">
                 <h5 id="largeImageLabel" class="sr-only">Large Image</h5>
-                <img id="largeImage" src="#" alt="Large Image" class="img-fluid">
+                <img id="largeImage" src="path/to/your/image.jpg" alt="Large Image" class="img-fluid">
             </div>
         </div>
     </div>
@@ -228,3 +225,4 @@
 
 </body>
 </html>
+
