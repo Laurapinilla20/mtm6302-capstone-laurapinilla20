@@ -1,102 +1,103 @@
-document.querySelectorAll('.nav-link').forEach(item => {
-    item.addEventListener('click', function(e) {
-        if (this.id === 'favoritesLink') {
-            localStorage.removeItem('lastVisitedSection');
-            return;
+const apiKey = 'J7sv6Z8QxaFrbexGtuhoPatOPTYvmlcWfjUWQ7c6'; // My API Key
+
+async function fetchImage(date) {
+    const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${date}`;
+
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
 
-        const sectionId = this.getAttribute('href').substring(1);
-        localStorage.setItem('lastVisitedSection', sectionId);
-    });
-});
+        const data = await response.json();
 
-if (window.location.pathname === '/index.html') {
-    const lastSection = localStorage.getItem('lastVisitedSection');
-    if (lastSection) {
-        window.location.href = `index.html#${lastSection}`;
+        if (data.media_type === 'image') {
+            document.getElementById('datePhotoDiv').style.display = 'block';
+            document.getElementById('datePhotoDiv').innerHTML = `
+                <img src="${data.url}" alt="${data.title}" class="modal-image" onclick="viewHDImage('${data.hdurl || data.url}')">
+            `;
+            document.getElementById('dateCaption1').textContent = data.title;
+            document.getElementById('dateCaption2').textContent = data.date;
+            document.getElementById('dateCaption3').textContent = data.explanation;
+        } else {
+            document.getElementById('datePhotoDiv').style.display = 'none';
+            alert('No image available for this date.');
+        }
+    } catch (error) {
+        console.error('Error fetching image:', error);
+        alert('Error fetching the image. Please try again later.');
     }
 }
 
-document.querySelectorAll('.nav-link').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-        });
-        this.classList.add('active');
-    });
-});
-
-function toggleImage() {
-    const largeImageModal = $('#largeImageModal');
-
-    if (largeImageModal.hasClass('show')) {
-        largeImageModal.modal('hide');
+// Function to handle date form
+document.getElementById('submitDate').addEventListener('click', () => {
+    const inputDate = document.getElementById('date').value;
+    if (inputDate) {
+        fetchImage(inputDate);
     } else {
-        const largeImage = document.getElementById('largeImage');
-        largeImage.src = 'img/15.1.png';
-        largeImageModal.modal('show');
+        alert('Please select a valid date.');
+    }
+});
+
+// Save to Favorites
+function addToFavorites() {
+    const imageUrl = document.querySelector('#datePhotoDiv img').src;
+    const title = document.getElementById('dateCaption1').textContent;
+    const date = document.getElementById('dateCaption2').textContent;
+
+    if (imageUrl && title && date) {
+        const favorite = { imageUrl, title, date };
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favorites.push(favorite);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        alert('Added to favorites!');
+    } else {
+        alert('No image available to save.');
     }
 }
 
-function addToFavorites() {
-    alert('Image added to favorites!');
+// View HD Image
+function viewHDImage(imageUrl) {
+    const modal = document.getElementById('largeImageModal');
+    const modalImage = document.getElementById('largeImage');
+    modalImage.src = imageUrl;
+    $(modal).modal('show');
 }
 
+// Load Favorites on the Page
+if (window.location.pathname.includes('favorites.html')) {
+    displayFavorites();
+}
+// Display Favorites
+function displayFavorites() {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoriteContainer = document.getElementById('favoriteContainer');
+    favoriteContainer.innerHTML = ''; 
 
-document.addEventListener("DOMContentLoaded", () => {
-    const favoriteContainer = document.getElementById("favoriteContainer");
-
-    const favoriteItems = [
-        { id: 1, title: "JUPITER", date: "Sep. 27th, 2022", description: "Jupiter was closer to our planet and we could see their atmosphere clearer", imgSrc: "img/20.png", largeImgSrc: "img/20.png" },
-        { id: 2, title: "SATURN", date: "Oct. 14th, 2022", description: "Saturn's rings were especially visible, a beautiful day to see the sky at night", imgSrc: "img/21.png", largeImgSrc: "img/21.png" },
-        { id: 3, title: "MARS", date: "Nov. 18th, 2022", description: "Mars was at its brightest, the red planet was shinnest start on the sky", imgSrc: "img/22.png", largeImgSrc: "img/22.png" },
-        { id: 4, title: "VENUS", date: "Dec. 2nd, 2022", description: "Venus was in full view, with its femenine warm vibe was a lovely night for us", imgSrc: "img/23.png", largeImgSrc: "img/23.png" },
-        { id: 5, title: "EARTH", date: "Jan. 1st, 2023", description: "A rare Earth capture from space, a strange but magical night was that day", imgSrc: "img/24.png", largeImgSrc: "img/24.png" },
-        { id: 6, title: "NEPTUNE", date: "Feb. 28th, 2023", description: "Neptune's vibrant blue, making us fall in love with its magical color", imgSrc: "img/25.png", largeImgSrc: "img/25.png" }
-    ];
-
-    favoriteItems.forEach(item => {
-        const favoriteBox = document.createElement("div");
-        favoriteBox.className = "favorite-box col-lg-3 col-md-4 col-sm-6";
-
-        favoriteBox.innerHTML = `
-            <div class="favorite-image-container">
-                <button class="heart-icon" onclick="toggleFavorite(${item.id})">
-                    <img src="img/iconsave.png" alt="Favorite Icon" class="heart-icon-img">
-                </button>
-                <button class="remove-icon" onclick="removeFavorite(${item.id})">
-                    <img src="img/Remove.png" alt="Remove Icon" class="remove-icon-img">
-                </button>
-                <img src="${item.imgSrc}" alt="${item.title}" class="favorite-image" onclick="showLargeImage('${item.largeImgSrc}')">
-            </div>
-            <div class="favorite-details text-right">
-                <h3>${item.title}</h3>
-                <h4>${item.date}</h4>
-                <p>${item.description}</p>
+    favorites.forEach(favorite => {
+        const favoriteItem = document.createElement('div');
+        favoriteItem.classList.add('col-md-4', 'text-center', 'favorite-item');
+        favoriteItem.innerHTML = `
+            <div class="favorite-box">
+                <div class="favorite-image-container">
+                    <img src="${favorite.imageUrl}" alt="${favorite.title}" class="favorite-image" onclick="viewHDImage('${favorite.imageUrl}')">
+                    <button class="btn btn-danger" onclick="removeFromFavorites('${favorite.imageUrl}')">Remove</button>
+                </div>
             </div>
         `;
-
-        favoriteContainer.appendChild(favoriteBox);
+        favoriteContainer.appendChild(favoriteItem);
     });
-});
-
-function showLargeImage(imgSrc) {
-    const largeImage = document.getElementById("largeImage");
-    largeImage.src = imgSrc;
-
-    if (window.innerWidth < 768) {
-        largeImage.src = imgSrc.replace('-desktop', '-mobile');
-    }
-
-    $('#largeImageModal').modal('show');
 }
 
-function toggleFavorite(id) {
-    console.log(`Toggling favorite for item with id: ${id}`);
+
+// Remove from Favorites
+function removeFromFavorites(imageUrl) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(fav => fav.imageUrl !== imageUrl);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    displayFavorites();
 }
 
-function removeFavorite(id) {
-    console.log(`Removing favorite for item with id: ${id}`);
-}
 
-favoriteBox.className = "favorite-box col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center";
+
